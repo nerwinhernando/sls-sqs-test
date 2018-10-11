@@ -38,3 +38,11 @@ module.exports.hello = async (event, context) => {
   })
   
 };
+
+module.exports.sqsHello = (event, context, callback) => {
+  console.log("it was called");
+
+  console.log(event);
+  context.done(null, '');
+  
+};
