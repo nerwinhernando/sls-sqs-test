@@ -1,0 +1,28 @@
+{
+  "name": "SLS-SQS Test",
+  "version": "1.0.0",
+  "description": "Demonstration of SQS",
+  "license": "MIT",
+  "scripts": {
+    "bootstrap": "./scripts/bootstrap.sh",
+    "check:style": "standard --fix 'src/**/*.js'",
+    "deploy:env": "sls deploy --stage $NODE_ENV",
+    "deploy": "export NODE_ENV=dev && npm run deploy:env",
+    "deploy:production": "export NODE_ENV=production && npm run deploy:env",
+    "deploy:stage": "export NODE_ENV=stage && npm run deploy:env",
+    "lint": "eslint ./src",
+    "precommit": "lint-staged",
+    "serve": "serverless offline start",
+    "tail:hello": "serverless logs --function hello --tail",
+    "test": "jest --watch",
+    "watch:hello": "serverless invoke local --watch --function hello --path fixtures/event.json",
+    "watch:warm": "serverless invoke local --watch --function hello --path fixtures/scheduled.json"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.186.0",
+    "jsonwebtoken": "^8.1.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^3.25.4"
+  }
+}
