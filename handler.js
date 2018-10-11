@@ -1,7 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-var sqs = new AWS.SQS({region: 'ap-southeast-1'})
+var sqs = new AWS.SQS({region: 'ap-southeast-1'});
 
 const AWS_ACCOUNT = process.env.ACCOUNT_ID;
 const QUEUE_URL = `https://sqs.ap-southeast-1.amazonaws.com/${AWS_ACCOUNT}/MyQueue`;
@@ -44,5 +44,5 @@ module.exports.sqsHello = (event, context, callback) => {
 
   console.log(event);
   context.done(null, '');
-  
+
 };

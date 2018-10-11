@@ -5,14 +5,20 @@ service: sls-sqs-test # NOTE: update this with your service name
 # frameworkVersion: "=X.X.X"
 custom:
   settings:
-    ACCOUNT_ID: "XXXX"
+    ACCOUNT_ID: "031676968139"
 
 provider:
   name: aws
   runtime: nodejs8.10
-  provider: student
+  provider: juanatrip
   region: ap-southeast-1
   environment: ${self:custom.settings}
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:SendMessage"
+      Resource: "arn:aws:sqs:${self:provider.region}:*:MyQueue"
 
 functions:
   hello:
@@ -21,6 +27,15 @@ functions:
       - http:
           method: get
           path: hello
+  sqsHello:
+    handler: handler.sqsHello
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - MyQueue
+              - Arn
+          batchSize: 1
 
 resources:
   Resources:
