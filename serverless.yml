@@ -11,3 +11,14 @@ provider:
 functions:
   hello:
     handler: handler.hello
+    events:
+      - http:
+          method: get
+          path: hello
+
+resources:
+  Resources:
+    MyQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "MyQueue"
