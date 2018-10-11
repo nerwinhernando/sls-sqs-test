@@ -1,14 +1,40 @@
 'use strict';
 
+const AWS = require('aws-sdk');
+var sqs = new AWS.SQS({region: 'ap-southeast-1'})
+
+const AWS_ACCOUNT = process.env.ACCOUNT_ID;
+const QUEUE_URL = `https://sqs.ap-southeast-1.amazonaws.com/${AWS_ACCOUNT}/MyQueue`;
+
 module.exports.hello = async (event, context) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
-    }),
+  const params = {
+    MessageBody: 'Hola',
+    QueueUrl: QUEUE_URL
   };
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
+  sqs.sendMessage(params, function(err, data) {
+    if(err) {
+      console.log('error:', 'Fail Send Message' + err);
+
+      const response = {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'ERROR'
+        })
+      };
+
+      callback(null, response);
+    } else {
+      console.log('data': data.MessageId);
+
+      const response = {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: data.MessageId
+        })  
+      };
+      callback(null, response);
+    }
+  })
+  
 };
