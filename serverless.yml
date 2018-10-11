@@ -6,6 +6,8 @@ service: sls-sqs-test # NOTE: update this with your service name
 custom:
   settings:
     ACCOUNT_ID: "031676968139"
+  serverless-offline:
+    host: 0.0.0.0
 
 provider:
   name: aws
@@ -43,3 +45,6 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: "MyQueue"
+
+plugins:
+  - serverless-offline
